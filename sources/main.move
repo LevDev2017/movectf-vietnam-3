@@ -57,10 +57,7 @@ module movectf::coin2 {
     public fun compare(vault: &mut Vault, coin: Coin2): bool {
         let amount = coin.value;
         let king_coin = take2(vault, amount);
-        if (king_coin.value != coin.value) {
-            king_coin.value = king_coin.value + amount;
-        };
-        true
+        king_coin.value == coin.value
     }
 
 
@@ -90,5 +87,10 @@ module movectf::coin2 {
             user: tx_context::sender(ctx),
             flag: true
         })
+    }
+
+    #[test_only]
+    public fun init_test(ctx: &mut TxContext) {
+        init(ctx);
     }
 }

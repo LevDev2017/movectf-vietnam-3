@@ -3,8 +3,11 @@ module movectf::counter {
     use sui::object::{Self, UID};
     use sui::tx_context::{Self, TxContext};
 
-    const MaxCounter: u64 = 3;
+    const MaxCounter: u64 = 10;
     const ENoAttemptLeft: u64 = 0;
+
+    friend movectf::coin2;
+
 
     /// A shared counter.
     struct Counter has key {
@@ -14,7 +17,7 @@ module movectf::counter {
     }
 
     /// Create and share a Counter object.
-    public fun create_counter(ctx: &mut TxContext) {
+    public(friend) fun create_counter(ctx: &mut TxContext) {
         transfer::share_object(Counter {
             id: object::new(ctx),
             owner: tx_context::sender(ctx),
